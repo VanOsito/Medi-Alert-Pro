@@ -7,7 +7,7 @@
     height: auto; /* Ajusta la altura según tus necesidades */
     animation: slideAnimation 10s linear infinite;
   }
-
+  
   ion-title.title-large {
     color: #c897d8;
     font-size: 30px;
@@ -21,7 +21,7 @@
     --background: #c897d8;
   }
   
-.full-page {
+  .full-page {
     display: flex;
     flex-direction: column;
     justify-content: center;

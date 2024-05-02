@@ -21,22 +21,19 @@
             width="0%"
           />
         </ion-col>
-        <ion-col size-md="9" size="12" class="welcome">
-            <ion-title size="large">Bienvenidos</ion-title>
+        <ion-col size-md="9" size="12" >
+            <ion-title size="large">Ingrese su Correo</ion-title>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating">Correo</ion-label>
-            <ion-input placeholder="" [(ngModel)]="usuario.mdl_correo"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" placeholder="" [(ngModel)]="usuario.mdl_contrasena"></ion-input>
+              <ion-item class="ion-margin-top">
+                <ion-input label="Ingrese su correo" labelplacement="floating" [(ngModel)]="correo"></ion-input>
+              </ion-item>
             </ion-item>
             <ion-row>
               <ion-col size="12">
                 <br>
-                <ion-button (click)="login()" shape="round" color=purple> Iniciar Sesion </ion-button>
-                <ion-button (click)="contrasena()" shape="round" color=purple> He olvidado mi contraseña </ion-button>
+                <ion-button (click)="recuperarContrasena()" shape="round" color=purple> Recuperar Contraseña </ion-button>
+                <ion-button (click)="volverAlInicio()" shape="round" color=purple> Volver al Inicio</ion-button>
               </ion-col>
             </ion-row>
           </ion-card-content>
@@ -44,5 +41,4 @@
       </ion-row>
     </ion-card>
   </div>
-
 

@@ -21,22 +21,22 @@
             width="0%"
           />
         </ion-col>
-        <ion-col size-md="9" size="12" class="welcome">
-            <ion-title size="large">Bienvenidos</ion-title>
+        <ion-col size-md="9" size="12" >
+            <ion-title size="large">
+            <ion-text class="ion-text-center"><h2>{{ usuario?.mdl_nombre }}</h2></ion-text>
+            <ion-text class="ion-text-center"><h2>{{usuario?.mdl_pregunta }}</h2></ion-text>
+          </ion-title>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating">Correo</ion-label>
-            <ion-input placeholder="" [(ngModel)]="usuario.mdl_correo"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" placeholder="" [(ngModel)]="usuario.mdl_contrasena"></ion-input>
+              <ion-item class="ion-margin-top">
+                <ion-input label="Ingrese Respuesta" labelplacement="floating" [(ngModel)]="mdl_respuesta"></ion-input>
+              </ion-item>
             </ion-item>
             <ion-row>
               <ion-col size="12">
                 <br>
-                <ion-button (click)="login()" shape="round" color=purple> Iniciar Sesion </ion-button>
-                <ion-button (click)="contrasena()" shape="round" color=purple> He olvidado mi contraseña </ion-button>
+                <ion-button (click)="validarRespuestaSecreta()" shape="round" color=purple >Recuperar Contraseña</ion-button>
+                <ion-button (click)="volverAlInicio()" shape="round" color=purple> Volver al Inicio</ion-button>
               </ion-col>
             </ion-row>
           </ion-card-content>
@@ -44,5 +44,4 @@
       </ion-row>
     </ion-card>
   </div>
-
 

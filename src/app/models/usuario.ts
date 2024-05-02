@@ -22,7 +22,7 @@ export class Usuario {
 
   public listaUsuariosValidos(): Usuario[] {
     const lista = [];
-    lista.push(new Usuario('van.troncosom@duocuc.cl', '1234', 'Vania Troncoso', '¿Cuál es tu animal favorito?', 'gato'));
+    lista.push(new Usuario('vania', '1234', 'Vania Troncoso', '¿Cuál es tu animal favorito?', 'gato'));
     return lista;
   }
 

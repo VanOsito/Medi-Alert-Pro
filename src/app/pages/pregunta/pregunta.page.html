@@ -23,19 +23,19 @@
         </ion-col>
         <ion-col size-md="9" size="12" >
             <ion-title size="large">
-            <ion-text class="ion-text-center" style="font-family: 'Bebas Neue', sans-serif"><h2>{{ usuario?.mdl_nombre }}</h2></ion-text>
-            <ion-text class="ion-text-center" style="font-family: 'Bebas Neue', sans-serif"><h2>{{usuario?.mdl_pregunta }}</h2></ion-text>
+            <ion-text class="ion-text-center" style="font-family: 'Bebas Neue', sans-serif"><h2>Usuario: {{ nombre }} {{apellido}}</h2></ion-text>
+            <ion-text class="ion-text-center" style="font-family: 'Bebas Neue', sans-serif"><h2>{{preguntaSecreta}}</h2></ion-text>
           </ion-title>
           <ion-card-content>
             <ion-item>
               <ion-item class="ion-margin-top">
-                <ion-input label="Ingrese Respuesta" labelplacement="floating" [(ngModel)]="mdl_respuesta"></ion-input>
+                <ion-input label="Ingrese Respuesta: " labelplacement="floating" [(ngModel)]="respuestaSecreta"></ion-input>
               </ion-item>
             </ion-item>
             <ion-row>
               <ion-col size="12">
                 <br>
-                <ion-button (click)="validarRespuestaSecreta()" shape="round" color=purple >Recuperar Contraseña</ion-button>
+                <ion-button (click)="recuperarContrasena()" shape="round" color=purple >Recuperar Contraseña</ion-button>
                 <ion-button (click)="volverAlInicio()" shape="round" color=purple> Volver al Inicio</ion-button>
               </ion-col>
             </ion-row>

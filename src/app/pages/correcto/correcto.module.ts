@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { CorrectoPageRoutingModule } from './correcto-routing.module';
-
 import { CorrectoPage } from './correcto.page';
 
 @NgModule({
@@ -15,6 +12,6 @@ import { CorrectoPage } from './correcto.page';
     IonicModule,
     CorrectoPageRoutingModule
   ],
-  declarations: [CorrectoPage]
+  
 })
 export class CorrectoPageModule {}

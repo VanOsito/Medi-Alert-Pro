@@ -20,7 +20,7 @@ import { InicioPage } from './inicio.page';
     EscaneoComponent,
     FarmaciaComponent,
     CalendarioComponent,
-  ],
+  ]
   
 })
 export class InicioPageModule {}

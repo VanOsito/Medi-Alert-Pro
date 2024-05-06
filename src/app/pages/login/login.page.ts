@@ -1,82 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { Usuario } from 'src/app/models/usuario';
+import { Router, NavigationExtras } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { showToast } from 'src/app/tools/message-routines';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
+  templateUrl:'./login.page.html',
   styleUrls: ['./login.page.scss'],
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('500ms ease-out', style({ transform: 'translateX(0%)' }))
-      ]),
-      transition(':leave', [
-        animate('500ms ease-out', style({ transform: 'translateX(100%)' }))
-      ])
-    ])
-  ]
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule]
 })
+
 export class LoginPage implements OnInit {
+  correo = '';
+  password = '';
 
-  isAlertOpen: boolean = false; 
-  alertButtons: any[] = []; 
+  constructor(private authService: AuthService, private router: Router) { }
 
-
-  public usuario: Usuario = new Usuario('', '', '', '', ''); // Inicializa un usuario
-
-  constructor(private router: Router, private toastController: ToastController) {}
-
-  ngOnInit(): void {}
-
-  contrasena(): void {
-    this.router.navigate(['correo']);
+  ngOnInit() {
   }
 
-  login(): void {
-    if (!this.validarUsuario(this.usuario)) {
-      return;
-    }
-
-    this.mostrarMensaje('¡Bienvenido!');
-
-    const navigationExtras: NavigationExtras = {
-      state: {
-        usuario: this.usuario
-      }
-    };
-    this.router.navigate(['inicio'], navigationExtras);
+  ingresar() {
+    showToast('click boton ingresar')
+    this.authService.login(this.correo, this.password);
   }
 
-  recuperar(): void {
+  contrasena(){
     this.router.navigate(['/correo']);
   }
 
-  validarUsuario(usuario: Usuario): boolean {
-    const usu = this.usuario.buscarUsuarioValido(
-      usuario.mdl_correo, usuario.mdl_contrasena
-    );
-
-    if (usu) {
-      this.usuario = usu; // Actualiza la instancia de usuario
-      return true;
-    } else {
-      this.mostrarMensaje('Las credenciales no son correctas!');
-      return false;
-    }
+  registro(){
+    this.router.navigate(['/registrarme']);
   }
 
-  async mostrarMensaje(mensaje: string, duracion?: number) {
-    const toast = await this.toastController.create({
-        message: mensaje,
-        duration: duracion ? duracion : 2000
-      });
-    toast.present();
-  }
 }
-
-
-  

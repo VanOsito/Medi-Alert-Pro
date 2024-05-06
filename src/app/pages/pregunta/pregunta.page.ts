@@ -1,57 +1,62 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pregunta',
   templateUrl: './pregunta.page.html',
   styleUrls: ['./pregunta.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class PreguntaPage implements OnInit {
-  public usuario: Usuario | undefined;
-  public mdl_nombre: string = '';
-  public mdl_pregunta: string = '';
-  public mdl_respuesta: string = '';
-  public mdl_correo: string = '';
+  usu = new Usuario ();
+  respuestaSecreta = ''
+  preguntaSecreta=''
+  nombre=''
+  apellido =''
   
-  
-  isAlertOpen: boolean = false;
-  alertButtons: any[] = [];
-
-
-  constructor(private activatedRoute: ActivatedRoute,
-    private router: Router) {
-
-      this.activatedRoute.queryParams.subscribe(params => {
-        if (this.router.getCurrentNavigation()?.extras.state) {
-          this.usuario = this.router.getCurrentNavigation()?.extras.state?.['usuario'];
-        } else {
-          this.router.navigate(['/login']);
-        }
-      });
-    }
+  constructor(private router: Router, private alertController: AlertController, private authService: AuthService) { }
 
   ngOnInit() {
-  }
+    const nav = this.router.getCurrentNavigation();
+    if (nav) {
+      if (nav.extras.state) {
+        this.usu = nav.extras.state['usuario'];
+        console.log(this.usu)
+        this.preguntaSecreta=this.usu.preguntaSecreta;
+        this.nombre=this.usu.nombre;
+        this.apellido=this.usu.apellido;
 
-  
-
-  public validarRespuestaSecreta(): void {
-    if (this.usuario?.mdl_respuesta === this.mdl_respuesta) {
-      const navigationExtras: NavigationExtras = {
-        state: {
-          usuario: this.usuario
-        }
-      };
-      
-
-      this.router.navigate(['correcto'], navigationExtras);
-    } else {
-      this.router.navigate(['incorrecto']);
+        console.log(this.usu.toString());
+        return;
+      }
     }
   }
-  volverAlInicio() {
-    this.router.navigate(['/login']);
+  
+
+
+  recuperarContrasena(){
+    if (this.usu === undefined){
+    }else{
+      if(this.usu.respuestaSecreta==this.respuestaSecreta){
+        this.router.navigate(['/correcto']);
+        this.authService.transmitirContraseña(this.usu.password);
+
+      }else{
+        this.router.navigate(['/incorrecto']);
+      }
+    }
+    
+  }
+
+  volverAlInicio(){
+    this.router.navigate(['/ingreso']);
   }
 
 }

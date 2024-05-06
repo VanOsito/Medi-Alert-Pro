@@ -25,17 +25,15 @@
             <ion-title size="large" style="font-family: 'Bebas Neue', sans-serif">Bienvenidos</ion-title>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating">Correo</ion-label>
-            <ion-input placeholder="" [(ngModel)]="usuario.mdl_correo"></ion-input>
+              <ion-input id="correo" [(ngModel)]="correo" type="text" label="Correo" labelPlacement="floating"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" placeholder="" [(ngModel)]="usuario.mdl_contrasena"></ion-input>
+              <ion-input id="password" [(ngModel)]="password" type="password" label="Contraseña" labelPlacement="floating"></ion-input>
             </ion-item>
             <ion-row>
               <ion-col size="12">
                 <br>
-                <ion-button (click)="login()" shape="round" color=purple> Iniciar Sesion </ion-button>
+                <ion-button (click)="ingresar()" shape="round" color=purple> Iniciar Sesion </ion-button>
                 <ion-button (click)="contrasena()" shape="round" color=purple> He olvidado mi contraseña </ion-button>
               </ion-col>
             </ion-row>

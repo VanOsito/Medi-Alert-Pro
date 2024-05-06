@@ -1,63 +1,88 @@
+import { DataBaseService } from '../services/data-base.service';
+import { showAlertDUOC } from "../tools/message-routines";
+
 export class Usuario {
-  public mdl_correo: string;
-  public mdl_contrasena: string;
-  public mdl_nombre: string;
-  public mdl_pregunta: string;
-  public mdl_respuesta: string;
-  public usuario?: Usuario;
 
-  constructor(
-    mdl_correo: string,
-    mdl_contrasena: string,
-    mdl_nombre: string,
-    mdl_pregunta: string,
-    mdl_respuesta: string
-  ) {
-    this.mdl_correo = mdl_correo;
-    this.mdl_contrasena = mdl_contrasena;
-    this.mdl_nombre = mdl_nombre;
-    this.mdl_pregunta = mdl_pregunta;
-    this.mdl_respuesta = mdl_respuesta;
+  correo = '';
+  password = '';
+  nombre = '';
+  apellido = '';
+  preguntaSecreta = '';
+  respuestaSecreta = '';
+  sesionActiva = '';
+
+  constructor() { }
+
+  setUsuario(correo: string, password: string, nombre: string, apellido: string, preguntaSecreta: string,
+    respuestaSecreta: string, sesionActiva: string)
+  {
+    this.correo = correo;
+    this.password = password;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.preguntaSecreta = preguntaSecreta;
+    this.respuestaSecreta = respuestaSecreta;
+    this.sesionActiva = sesionActiva;
   }
 
-  public listaUsuariosValidos(): Usuario[] {
-    const lista = [];
-    lista.push(new Usuario('vania', '1234', 'Vania Troncoso', '¿Cuál es tu animal favorito?', 'gato'));
-    return lista;
+  static getUsuario(correo: string, password: string, nombre: string, apellido: string, preguntaSecreta: string,
+    respuestaSecreta: string, sesionActiva: string)
+  {
+    const usu = new Usuario();
+    usu.setUsuario(correo, password, nombre, apellido, preguntaSecreta, respuestaSecreta, sesionActiva)
+    return usu;
   }
 
-  public buscarUsuarioValido(mdl_correo: string, mdl_contrasena: string): Usuario | undefined {
-    return this.listaUsuariosValidos().find(usuario => usuario.mdl_correo === mdl_correo && usuario.mdl_contrasena === mdl_contrasena);
+  validarCampoRequerido(nombreCampo: string, valor: string) {
+    if (valor.trim() === '') return `El campo "${nombreCampo}" debe tener un valor.`;
+    return '';
   }
 
-  public buscarUsuarioPorCorreo(mdl_correo: string): Usuario | undefined {
-    return this.listaUsuariosValidos().find(usuario => usuario.mdl_correo === mdl_correo);
+  validarCorreo(correo: string): string {
+    return this.validarCampoRequerido('correo', correo);
+  }
+
+  validarPassword(password: string): string {
+    return this.validarCampoRequerido('contraseña', password);
+  }
+
+  validarNombre(nombre: string): string {
+    return this.validarCampoRequerido('nombre', nombre);
+  }
+
+  validarApellido(apellido: string): string {
+    return this.validarCampoRequerido('apellido', apellido);
+  }
+
+  validarPreguntaSecreta(preguntaSecreta: string): string {
+    return this.validarCampoRequerido('pregunta secreta', preguntaSecreta);
+  }
+
+  validarRespuestaSecreta(respuestaSecreta: string): string {
+    return this.validarCampoRequerido('respuesta secreta', respuestaSecreta);
+  }
+
+  validarPropiedadesUsuario(correo: string, password: string, nombre: string, apellido: string
+    , preguntaSecreta: string, respuestaSecreta: string): string {
+    return this.validarCorreo(correo) 
+      || this.validarPassword(password)
+      || this.validarNombre(nombre)
+      || this.validarApellido(apellido)
+      || this.validarPreguntaSecreta(preguntaSecreta)
+      || this.validarRespuestaSecreta(respuestaSecreta)
   }
 
   
   public validarcorreo(): string {
-    if (this.mdl_correo.trim() === '') {
+    if (this.correo.trim() === '') {
       return 'Al ingresar en el sistema debe ingresar un nombre de usuario.';
     }
-    if (this.mdl_correo.length < 3 || this.mdl_correo.length > 8) {
+    if (this.correo.length < 3 || this.correo.length > 8) {
       return 'El nombre de usuario debe tener entre 3 y 8 caracteres.';
     }
     return '';
   }
 
-  public validarPassword(): string {
-    if (this.mdl_contrasena.trim() === '') {
-      return 'Para entrar al sistema debe ingresar la contraseña.';
-    }
-    
-    if (this.mdl_contrasena.length !== 4) {
-      return 'La contraseña debe tener 4 caracteres.';
-    }
-    return '';
-  }
+  
 
-  public validarUsuario(): string {
-    return this.validarcorreo()
-      || this.validarPassword();
-  }
 }

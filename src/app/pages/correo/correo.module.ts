@@ -15,6 +15,6 @@ import { CorreoPage } from './correo.page';
     IonicModule,
     CorreoPageRoutingModule
   ],
-  declarations: [CorreoPage]
+  
 })
 export class CorreoPageModule {}

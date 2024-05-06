@@ -1,41 +1,50 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { Usuario } from 'src/app/models/usuario';
-import {  Navigation, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-correcto',
   templateUrl: './correcto.page.html',
   styleUrls: ['./correcto.page.scss'],
+  imports: [IonicModule, CommonModule, FormsModule],
+  standalone: true,
 })
 export class CorrectoPage implements OnInit {
-public usuario: Usuario = new Usuario('correo', 'contraseña', 'nombre', 'pregunta', 'respuesta');
-public mdl_contrasena: string='';
-public mdl_nombre: string = '';
-public mdl_correo: string = '';
+  usu = new Usuario ();
+  password:string =''
 
-constructor(private activatedRoute: ActivatedRoute, private router: Router,)
-{
-  this.activatedRoute.queryParams.subscribe((params) => {
-    const navigation: Navigation | null = this.router.getCurrentNavigation();
-    if (navigation) {
-      const state: any | undefined = navigation.extras.state;
-      if (state) {
-        if (state['usuario']) {
-          this.usuario = state['usuario'];
-        }
-      }
-    }
-  });
-}
+constructor(private router: Router, private alertController: AlertController, private authService: AuthService) { }
 
 ngOnInit() {
+
+  this.authService.contraseña$.subscribe(contraseña => {
+    this.password = contraseña;
+  });   
+
+
+
+  const nav = this.router.getCurrentNavigation();
+  if (nav) {
+    if (nav.extras.state) {
+      this.usu = nav.extras.state['usuario'];
+      console.log(this.usu)
+      this.password=this.usu.password;
+      console.log(this.usu.toString());
+      console.log(this.password)
+      return;
+    }
+  }
 }
 
-login() {
-  this.router.navigate(['login']);
+login(){
+  this.router.navigate(['/ingreso']);
+}
 }
 
-}
 
 

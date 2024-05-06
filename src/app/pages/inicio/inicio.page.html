@@ -1,19 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <img src="\assets\icon\Encabezado.png">
+    <ion-segment value="escaneo" (ionChange)="cambiarComponente($event)">
+
+      <ion-segment-button value="escaneo">
+        <ion-label>escaneo</ion-label>
+      </ion-segment-button>
+  
+      <ion-segment-button value="calendario">
+        <ion-label>calendario</ion-label>
+      </ion-segment-button>
+  
+      <ion-segment-button value="farmacia">
+        <ion-label>farmacia</ion-label>
+      </ion-segment-button> 
+      
+    </ion-segment>
   </ion-toolbar>
+  
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <img src="/assets/icon/fondo 2 copia.jpg" class="img-fluid" style="position: absolute; right: 0; top: 0; z-index: -100; ">
-  <br>
-  <br>
-  <br>
-  <br>
+  
+  
+  <ion-content>
+
+    <app-escaneo [hidden]="componente_activa != 'escaneo'"></app-escaneo>
+  
+    <app-calendario [hidden]="componente_activa != 'calendario'"></app-calendario>
+  
+    <app-farmacia [hidden]="componente_activa != 'farmacia'"></app-farmacia>
+  
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-button (click)="cerrarsesion()" shape="round" color=purple> Cerrar Sesion </ion-button>
-  </ion-toolbar>
+
 </ion-footer>

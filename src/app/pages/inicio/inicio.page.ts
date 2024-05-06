@@ -1,21 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { EscaneoComponent } from 'src/app/components/escaneo/escaneo.component';
+import { FarmaciaComponent } from 'src/app/components/farmacia/farmacia.component';
+import { CalendarioComponent } from 'src/app/components/calendario/calendario.component';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
+  standalone: true,
+  imports: [
+    IonicModule, 
+    CommonModule, 
+    FormsModule, 
+    EscaneoComponent,
+    FarmaciaComponent,
+    CalendarioComponent
+  ]
 })
 export class InicioPage implements OnInit {
 
-  constructor( private router:Router) { }
+  componente_activa = 'escaneo';
+
+  constructor() { }
 
   ngOnInit() {
-    
   }
 
-  cerrarsesion(){
-    this.router.navigate(['/login']);
+  cambiarComponente(event: any) {
+    this.componente_activa = event.detail.value;
   }
+
 
 }

@@ -28,8 +28,7 @@ export class DataBaseService {
   db!: SQLiteDBConnection;
   listaUsuarios: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
   listaUsuariosFueActualizada: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  datosQR: BehaviorSubject<string> = new BehaviorSubject('');
-
+  
   constructor(private sqliteService: SQLiteService) {}
 
   // async inicializarBaseDeDatos() {
@@ -71,9 +70,9 @@ export class DataBaseService {
   }
   
   async crearUsuariosDePrueba() {
-    await this.guardarUsuario(Usuario.getUsuario('vania', '1234', 'Vania', 'Troncoso', 'Nombre de tu marido?', 'yoongi', 'N'));
-    await this.guardarUsuario(Usuario.getUsuario('gaby', '1234', 'Gabriela', 'Gomez', 'Perdido favorito?', 'bangchan', 'N'));
-    await this.guardarUsuario(Usuario.getUsuario('ignacia', '1234', 'Ignacia', 'Arancibia', 'Marca favorita?', 'channel', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('Vania', '1234', 'Vania', 'Troncoso', 'Nombre de tu marido?', 'yoongi', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('Gaby', '1234', 'Gabriela', 'Gomez', 'Perdido favorito?', 'bangchan', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('Ignacia', '1234', 'Ignacia', 'Arancibia', 'Marca favorita?', 'channel', 'N'));
   }
 
   // Create y Update del CRUD. La creación y actualización de un usuario
@@ -111,10 +110,10 @@ export class DataBaseService {
   async leerUsuarios() {
     try {
         // Verificar si this.db está definido
-        if (!this.db) {
-            console.error('Error: this.db no está inicializado en leerUsuarios().');
-            return;
-        }
+        // if (!this.db) {
+        //     console.error('Error: this.db no está inicializado en leerUsuarios().');
+        //     return;
+        // }
 
         const usuarios: Usuario[] = (await this.db.query('SELECT * FROM USUARIO;')).values as Usuario[];
         this.listaUsuarios.next(usuarios);

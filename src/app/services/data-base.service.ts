@@ -3,7 +3,6 @@ import { Injectable} from '@angular/core';
 import { SQLiteService } from './sqlite.service';
 import { Usuario } from '../models/usuario';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { showAlert, showAlertDUOC, showAlertError } from '../tools/message-routines';
 
 @Injectable()
 export class DataBaseService {
@@ -31,28 +30,50 @@ export class DataBaseService {
   listaUsuariosFueActualizada: BehaviorSubject<boolean> = new BehaviorSubject(false);
   datosQR: BehaviorSubject<string> = new BehaviorSubject('');
 
-  constructor(private sqliteService: SQLiteService) { }
+  constructor(private sqliteService: SQLiteService) {}
+
+  // async inicializarBaseDeDatos() {
+    
+
+  //   // Crear base de datos SQLite
+  //   await this.sqliteService.crearBaseDeDatos({database: this.nombreBD, upgrade: this.userUpgrades});
+
+  //   // Abrir base de datos
+  //   this.db = await this.sqliteService.abrirBaseDeDatos(this.nombreBD, false, 'no-encryption', 1, false);
+
+  //   // Para crear usuarios de prueba descomenta la siguiente línea
+  //   await this.crearUsuariosDePrueba();
+
+  //   // Cargar la lista de usuarios
+  //   await this.leerUsuarios();
+  // }
 
   async inicializarBaseDeDatos() {
-
-    // Crear base de datos SQLite
-    await this.sqliteService.crearBaseDeDatos({database: this.nombreBD, upgrade: this.userUpgrades});
-
-    // Abrir base de datos
-    this.db = await this.sqliteService.abrirBaseDeDatos(this.nombreBD, false, 'no-encryption', 1, false);
-
-    // Para crear usuarios de prueba descomenta la siguiente línea
-    await this.crearUsuariosDePrueba();
-
-    // Cargar la lista de usuarios
-    await this.leerUsuarios();
+    try {
+      console.log('Creando base de datos...');
+      await this.sqliteService.crearBaseDeDatos({database: this.nombreBD, upgrade: this.userUpgrades});
+      console.log('Base de datos creada.');
+  
+      console.log('Abriendo base de datos...');
+      this.db = await this.sqliteService.abrirBaseDeDatos(this.nombreBD, false, 'no-encryption', 1, false);
+      console.log('Base de datos abierta.');
+  
+      console.log('Creando usuarios de prueba...');
+      await this.crearUsuariosDePrueba();
+      console.log('Usuarios de prueba creados.');
+  
+      console.log('Cargando lista de usuarios...');
+      await this.leerUsuarios();
+      console.log('Lista de usuarios cargada.');
+    } catch (error) {
+      console.error('Error al inicializar la base de datos:', error);
+    }
   }
-
+  
   async crearUsuariosDePrueba() {
-    await this.guardarUsuario(Usuario.getUsuario('atorres@duocuc.cl', '1234', 'Ana', 'Torres', 'Nombre de mi mascota', 'gato', 'N'));
-    await this.guardarUsuario(Usuario.getUsuario('avalenzuela@duocuc.cl', 'qwer', 'Alberto', 'Valenzuela', 'Mi mejor amigo', 'juanito', 'N'));
-    await this.guardarUsuario(Usuario.getUsuario('cfuentes@duocuc.cl', 'asdf', 'Carla', 'Fuentes', 'Dónde nació mamá', 'valparaiso', 'N'));
-    await this.guardarUsuario(Usuario.getUsuario('admin', '1234', 'admin', '', 'Animal Fav', 'Gato', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('vania', '1234', 'Vania', 'Troncoso', 'Nombre de tu marido?', 'yoongi', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('gaby', '1234', 'Gabriela', 'Gomez', 'Perdido favorito?', 'bangchan', 'N'));
+    await this.guardarUsuario(Usuario.getUsuario('ignacia', '1234', 'Ignacia', 'Arancibia', 'Marca favorita?', 'channel', 'N'));
   }
 
   // Create y Update del CRUD. La creación y actualización de un usuario
@@ -75,17 +96,63 @@ export class DataBaseService {
 
   // ReadAll del CRUD. Si existen registros entonces convierte los registros en una lista de usuarios
   // con la instrucción ".values as Usuario[];". Si la tabla no tiene registros.
-  async leerUsuarios() {
-    const usuarios: Usuario[]= (await this.db.query('SELECT * FROM USUARIO;')).values as Usuario[];
-    this.listaUsuarios.next(usuarios);
-    this.listaUsuariosFueActualizada.next(true);
-  }
+  // async leerUsuarios() {
+  //   const usuarios: Usuario[]= (await this.db.query('SELECT * FROM USUARIO;')).values as Usuario[];
+  //   this.listaUsuarios.next(usuarios);
+  //   this.listaUsuariosFueActualizada.next(true);
+  // }
 
-  // Read del CRUD
-  async leerUsuario(correo: string): Promise<Usuario | undefined> {
-    const usuarios: Usuario[]= (await this.db.query('SELECT * FROM USUARIO WHERE correo=?;', [correo])).values as Usuario[];
-    return usuarios[0];
+  // // Read del CRUD
+  // async leerUsuario(correo: string): Promise<Usuario | undefined> {
+  //   const usuarios: Usuario[]= (await this.db.query('SELECT * FROM USUARIO WHERE correo=?;', [correo])).values as Usuario[];
+  //   return usuarios[0];
+  // }
+
+  async leerUsuarios() {
+    try {
+        // Verificar si this.db está definido
+        if (!this.db) {
+            console.error('Error: this.db no está inicializado en leerUsuarios().');
+            return;
+        }
+
+        const usuarios: Usuario[] = (await this.db.query('SELECT * FROM USUARIO;')).values as Usuario[];
+        this.listaUsuarios.next(usuarios);
+        this.listaUsuariosFueActualizada.next(true);
+    } catch (error) {
+        console.error('Error al leer usuarios:', error);
+    }
+}
+
+// Read del CRUD
+async leerUsuario(correo: string): Promise<Usuario | undefined> {
+  try {
+    
+    // Verificar si this.db está definido
+    if (!this.db) {
+      console.error('Error: this.db no está inicializado en leerUsuario().');
+      return undefined;
+    }
+
+    const result = await this.db.query('SELECT * FROM USUARIO WHERE correo=?;',[correo]);
+      const usuarios: Usuario[] = (result.values as Usuario[]) || [];
+      return usuarios[0];
+  } catch (error) {
+    console.error('Error al leer usuario:', error);
+    return undefined;
   }
+}
+
+  // async leerUsuario(correo: string): Promise<Usuario | undefined> {
+  //   try {
+  //     const result = await this.db.query('SELECT * FROM USUARIO WHERE correo=?;', [correo]);
+  //     const usuarios: Usuario[] = (result.values as Usuario[]) || [];
+  //     return usuarios[0];
+  //   } catch (error) {
+  //     console.error('Error al leer usuario:', error);
+  //     return undefined;
+  //   }
+  // }
 
   // Delete del CRUD
   async eliminarUsuarioUsandoCorreo(correo: string) {

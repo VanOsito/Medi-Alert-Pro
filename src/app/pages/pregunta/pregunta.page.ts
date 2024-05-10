@@ -4,7 +4,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
+// import { AuthService } from 'src/app/services/auth.service';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -21,7 +21,7 @@ export class PreguntaPage implements OnInit {
   nombre=''
   apellido =''
   
-  constructor(private router: Router, private alertController: AlertController, private authService: AuthService) { }
+  constructor(private router: Router, private alertController: AlertController) { }
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
@@ -46,7 +46,6 @@ export class PreguntaPage implements OnInit {
     }else{
       if(this.usu.respuestaSecreta==this.respuestaSecreta){
         this.router.navigate(['/correcto']);
-        this.authService.transmitirContraseña(this.usu.password);
 
       }else{
         this.router.navigate(['/incorrecto']);
